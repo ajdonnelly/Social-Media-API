@@ -6,7 +6,6 @@ Social Media API is a social network web application where users can share their
 
 --
 
-
 Use Express.js npm packages
 Mongoose npm packages
 optionally use a JavaScript date library of your choice or the native JavaScript Date object to format timestamps.

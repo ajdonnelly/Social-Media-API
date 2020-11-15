@@ -1,12 +1,17 @@
 const { Thought, User } = require('../models');
 
-const thoughtController = {
+const ThoughtController = {
 //GET to get all thoughts
 getAllThoughts(req, res) {
     Thought.find()
       .sort({ createdAt: -1 })
-      .then((dbThoughtData) => { res.json(dbThoughtData);})
-      .catch(err => res.json(err));
+      .then((dbThoughtData) => { 
+        res.json(dbThoughtData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
     //GET to get a single thought by its _id
     getThoughtById(req, res) {
@@ -18,7 +23,10 @@ getAllThoughts(req, res) {
             }
             res.json(dbThoughtData);
           })
-          .catch(err => res.json(err));
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
       },
 
       //POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)
@@ -34,7 +42,9 @@ getAllThoughts(req, res) {
           .then((dbUserData) => {
             if (!dbUserData) {
               return res.status(404).json({ message: 'Thought created but no user with this id!' });
-            } res.json({ message: 'Thank you for your thought!' });
+            } 
+            
+            res.json({ message: 'Thank you for your thought!' });
           })
           .catch(err => res.json(err));
       },
@@ -47,8 +57,14 @@ getAllThoughts(req, res) {
                 return; 
             }
             res.json(dbThoughtData);
+
           })
-          .catch(err => res.json(err));
+
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
+
       },
     //   DELETE to remove a thought by its _id
     deleteThought(req, res) {
@@ -73,7 +89,10 @@ getAllThoughts(req, res) {
             }
             res.json({ message: 'Thought successfully deleted!' });
           })
-          .catch(err => res.json(err));
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
       },
 
     //   POST to create a reaction stored in a single thought's reactions array field
@@ -90,7 +109,10 @@ getAllThoughts(req, res) {
             }
             res.json(dbThoughtData);
           })
-          .catch(err => res.json(err));
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
       },
     //   DELETE to pull and remove a reaction by the reaction's reactionId value
     removeReaction(req, res) {
@@ -106,9 +128,11 @@ getAllThoughts(req, res) {
             }
             res.json(dbThoughtData);
           })
-          .catch(err => res.json(err));
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
       },
 }
 
-module.exports = thoughtController;
- //   /api/thoughts/:thoughtId/reactions
+module.exports = ThoughtController;

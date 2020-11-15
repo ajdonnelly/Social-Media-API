@@ -5,7 +5,9 @@ const userController = {
   getAllUsers(req, res) {
     User.find()
       .select('-__v')
-      .then((dbUserData) => { res.json(dbUserData);})
+      .then((dbUserData) => { 
+        res.json(dbUserData);
+      })
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
@@ -14,13 +16,14 @@ const userController = {
   // get single user by id
   getUserById(req, res) {
     User.findOne({ _id: req.params.userId })
+      .select('-__v')
       .populate('friends')
       .populate('thoughts')
-    .select('-__v')
       .then((dbUserData) => {
         if (!dbUserData) {
           return res.status(404).json({ message: 'No user exists with this id!' });
-        } res.json(dbUserData);
+        } 
+        res.json(dbUserData);
       })
       .catch((err) => {
         console.log(err);
@@ -30,8 +33,13 @@ const userController = {
   // create a new user
   createUser(req, res) {
     User.create(req.body)
-      .then((dbUserData) => { res.json(dbUserData);})
-      .catch(err => res.json(err));
+      .then((dbUserData) => { 
+        res.json(dbUserData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   // update a user
   updateUser(req, res) {
@@ -42,7 +50,11 @@ const userController = {
             return; 
         }
         res.json(dbUserData);
-      }) .catch(err => res.json(err));
+      })  
+        .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   // delete user 
   deleteUser(req, res) {
@@ -55,8 +67,13 @@ const userController = {
         Thought.deleteMany({ _id: { $in: dbUserData.thoughts } });
         return; 
     })
-      .then(() => { res.json({ message: 'User and associated thoughts deleted!' });}) 
-        .catch(err => res.json(err));
+      .then(() => { 
+        res.json({ message: 'User and all their thoughts deleted!' });
+      }) 
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
 
   // create new friend
@@ -68,7 +85,11 @@ const userController = {
             return;
         }
         res.json(dbUserData);
-      }) .catch(err => res.json(err));
+      }) 
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   // erase friend
   eraseFriend(req, res) {
@@ -79,7 +100,11 @@ const userController = {
          return; 
         }
         res.json(dbUserData);
-      }) .catch(err => res.json(err));
+      }) 
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
 };
 
